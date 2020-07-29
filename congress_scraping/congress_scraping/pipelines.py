@@ -10,7 +10,7 @@ from sqlalchemy.orm import sessionmaker
 from models import Base, SenateMember
 
 
-engine = create_engine('sqlite:///database.db')
+engine = create_engine('sqlite:///db.sqlite')
 
 
 class StoragePipeline:
@@ -18,10 +18,11 @@ class StoragePipeline:
     def __init__(self, db_engine=engine):
         self.engine = db_engine
         Base.metadata.create_all(self.engine)
+        self.Session = sessionmaker(bind=self.engine)
 
     def open_spider(self, spider):
-        Session = sessionmaker(bind=self.engine)
-        self.session = Session()
+        
+        self.session = self.Session()
 
     def close_spider(self, spider):
         self.session.close()
@@ -43,4 +44,6 @@ class StoragePipeline:
 
         self.session.add(member)
         self.session.commit()
+
+        return item
 

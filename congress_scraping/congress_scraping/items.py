@@ -8,7 +8,7 @@
 import scrapy
 
 
-class CongressSenate(scrapy.Item):
+class Senate(scrapy.Item):
     # define the fields for your item here like:
     
     name = scrapy.Field()
@@ -18,4 +18,6 @@ class CongressSenate(scrapy.Item):
     city = scrapy.Field()
     com_const = scrapy.Field()
     twitter = scrapy.Field()
+
+    pass
 
