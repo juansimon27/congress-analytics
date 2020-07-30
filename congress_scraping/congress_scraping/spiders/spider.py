@@ -12,17 +12,11 @@ class SenateScraper(scrapy.Spider):
         links = response.css(
             '.modazdirectory__result.modazdirectory__layout-misc_on blockquote a::attr(href)'
             ).extract()
-        print('""""""NUMBER OF LINKS FOUND""""""""', len(links))
-        count_1 = 0
-        count_2 = 0
+               
         for senate_url in links:
-            count_1 += 1
             if re.search('el-senado', senate_url):
-                count_2 += 1
                 yield response.follow(senate_url, callback=self.parse_details)
         
-        print('""""""THIS IS COUNT_1""""""', count_1)
-        print('""""""THIS IS COUNT_2""""""', count_2)
 
     def parse_details(self, response):
         item = Senate()
@@ -55,7 +49,7 @@ class SenateScraper(scrapy.Spider):
             ).re_first(r'(?<!\w)@\w+')
 
         item['name'] = name
-        item['picture'] = pic
+        item['picture'] = self.allowed_domains[0] + pic
         item['party'] = party_op2 if party_op1 is None else party_op1
         item['birth_date'] = birth_date
         item['city'] = city_op2 if city_op1 is None else city_op1
