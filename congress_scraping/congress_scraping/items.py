@@ -6,6 +6,11 @@
 # https://docs.scrapy.org/en/latest/topics/items.html
 
 import scrapy
+from scrapy.loader.processors import Compose
+
+
+# def to_lower(x):
+#     return x.lower()
 
 
 class Senate(scrapy.Item):
